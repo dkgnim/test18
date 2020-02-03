@@ -1,0 +1,14 @@
+TARGETS = rsyslog tomcat8 ubuntu-fan unattended-upgrades killprocs cgroupfs-mount postgresql single rsync dbus ssh cron sysstat docker rc.local ondemand grub-common
+INTERACTIVE =
+cgroupfs-mount: rsyslog
+postgresql: rsyslog
+single: killprocs
+rsync: rsyslog
+dbus: rsyslog
+ssh: rsyslog
+cron: rsyslog
+sysstat: rsyslog
+docker: rsyslog cgroupfs-mount
+rc.local: cgroupfs-mount rsyslog tomcat8 ubuntu-fan unattended-upgrades docker postgresql rsync dbus ssh cron sysstat
+ondemand: cgroupfs-mount rsyslog tomcat8 ubuntu-fan unattended-upgrades docker postgresql rsync dbus ssh cron sysstat
+grub-common: cgroupfs-mount rsyslog tomcat8 ubuntu-fan unattended-upgrades docker postgresql rsync dbus ssh cron sysstat

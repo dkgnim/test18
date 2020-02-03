@@ -1,0 +1,11 @@
+TARGETS = tomcat8 ubuntu-fan unattended-upgrades resolvconf postgresql docker urandom cgroupfs-mount sendsigs rsyslog umountnfs.sh hwclock.sh networking umountfs umountroot halt reboot
+cgroupfs-mount: docker
+sendsigs: cgroupfs-mount tomcat8 ubuntu-fan unattended-upgrades docker postgresql
+rsyslog: cgroupfs-mount docker sendsigs postgresql
+umountnfs.sh: cgroupfs-mount tomcat8 ubuntu-fan unattended-upgrades sendsigs docker rsyslog postgresql
+hwclock.sh: rsyslog postgresql
+networking: tomcat8 ubuntu-fan umountnfs.sh postgresql
+umountfs: cgroupfs-mount tomcat8 hwclock.sh ubuntu-fan unattended-upgrades umountnfs.sh docker networking urandom resolvconf postgresql
+umountroot: umountfs
+halt: umountroot
+reboot: umountroot
